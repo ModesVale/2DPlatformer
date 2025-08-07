@@ -3,8 +3,8 @@ using UnityEngine;
 public class CharacterMover : MonoBehaviour
 {
     [SerializeField] private float _speed = 5f;
-    [SerializeField] private float _jumpForce = 6f;
-    [SerializeField] private float _groundThreshold = 0.4f;
+    [SerializeField] private float _jumpForce = 10f;
+    [SerializeField] private float _groundThreshold = 0.5f;
 
     private Rigidbody2D _rigidbody;
     private bool _isGrounded;
