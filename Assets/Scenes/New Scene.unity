@@ -133,9 +133,9 @@ GameObject:
   - component: {fileID: 23284922}
   - component: {fileID: 23284921}
   - component: {fileID: 23284920}
-  - component: {fileID: 23284923}
   - component: {fileID: 23284925}
   - component: {fileID: 23284924}
+  - component: {fileID: 23284926}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -231,21 +231,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &23284923
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 23284919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8964f1cc08f27542a69501dc0b3ba1c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speed: 5
-  _jumpForce: 10
-  _groundThreshold: 0.5
 --- !u!50 &23284924
 Rigidbody2D:
   serializedVersion: 4
@@ -308,6 +293,24 @@ CapsuleCollider2D:
   m_Offset: {x: -0.03006363, y: -0.002359748}
   m_Size: {x: 0.8539753, y: 1.0088413}
   m_Direction: 0
+--- !u!114 &23284926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 23284919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55deaa3347e30774d8e54ee7303bb4ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _groundCheckDistanse: 0.2
+  _groundMask:
+    serializedVersion: 2
+    m_Bits: 8
+  _moveSpeed: 5
+  _jumpStrength: 8
 --- !u!1 &952383147
 GameObject:
   m_ObjectHideFlags: 0
@@ -504,7 +507,7 @@ GameObject:
   - component: {fileID: 1756712368}
   - component: {fileID: 1756712367}
   - component: {fileID: 1756712366}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
