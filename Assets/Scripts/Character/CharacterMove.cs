@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class CharacterMove : MonoBehaviour
@@ -6,6 +7,7 @@ public class CharacterMove : MonoBehaviour
     [SerializeField] private LayerMask _groundMask;
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _jumpStrength;
+    [SerializeField] private Animator _animator;
 
     private Rigidbody2D _rigidbody;
     private CapsuleCollider2D _bodyCollider;
@@ -24,11 +26,12 @@ public class CharacterMove : MonoBehaviour
     private void Update()
     {
         HandleInput();
+        SetAnimation();
     }
 
     private void FixedUpdate()
     {
-        _isGrounded = IsGroundedRays();
+        _isGrounded = IsRaysGrounded();
 
         Vector2 currentVelocity = _rigidbody.velocity;
         currentVelocity.x = _moveInput * _moveSpeed;
@@ -57,7 +60,7 @@ public class CharacterMove : MonoBehaviour
         }
     }
 
-    private bool IsGroundedRays()
+    private bool IsRaysGrounded()
     {
         Bounds bounds = _bodyCollider.bounds;
 
@@ -68,5 +71,14 @@ public class CharacterMove : MonoBehaviour
         Debug.DrawRay(rayOrigin, Vector2.down * _groundCheckDistanse, hit ? Color.green : Color.red);
         
         return hit.collider != null;
+    }
+
+    private void SetAnimation()
+    {
+        if (_animator != null)
+        {
+            _animator.SetFloat("Speed", Mathf.Abs(_moveInput));
+            _animator.SetBool("IsJumping", _isJumped);
+        }
     }
 }

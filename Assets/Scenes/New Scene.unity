@@ -311,6 +311,7 @@ MonoBehaviour:
     m_Bits: 8
   _moveSpeed: 5
   _jumpStrength: 8
+  _animator: {fileID: 23284920}
 --- !u!1 &952383147
 GameObject:
   m_ObjectHideFlags: 0
