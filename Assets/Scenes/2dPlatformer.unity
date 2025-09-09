@@ -1199,6 +1199,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1710563837}
+  - component: {fileID: 1710563838}
   m_Layer: 0
   m_Name: CoinSpawner
   m_TagString: Untagged
@@ -1224,6 +1225,25 @@ Transform:
   - {fileID: 1789154407}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1710563838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710563836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4438a393340a0e4eac911f878769f01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefab: {fileID: 1354827337880412939, guid: 8f69e5c89c130784fb30f1386b5ac8d3, type: 3}
+  _spawnPoints:
+  - {fileID: 1569825428}
+  - {fileID: 1835499849}
+  - {fileID: 1789154407}
+  _respawnDelay: 5
+  _poolCapacity: 10
 --- !u!1 &1789154406
 GameObject:
   m_ObjectHideFlags: 0
