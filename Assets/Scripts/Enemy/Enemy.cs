@@ -7,14 +7,14 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int _startDirection = 1;
 
     private Rigidbody2D _rigidbody;
-    private SpriteRenderer _sprite;
+    private Collider2D _collider;
     private int _direction;
 
     private void Awake()
     {
         _direction = Mathf.Sign(_startDirection) >= 0 ? 1 : -1;
         _rigidbody = GetComponent<Rigidbody2D>();
-        _sprite = GetComponent<SpriteRenderer>();
+        _collider = GetComponent<Collider2D>();
     }
 
     private void FixedUpdate()
@@ -25,7 +25,7 @@ public class Enemy : MonoBehaviour
     private void EnemyMove()
     {
         Bounds zone = _patrolZone.bounds;
-        Bounds bodyCollider = _rigidbody.GetComponent<Collider2D>().bounds;
+        Bounds bodyCollider = _collider.bounds;
         float halfWidth = bodyCollider.extents.x;
         Vector2 position = _rigidbody.position;
         Vector2 velocity = _rigidbody.velocity;
@@ -42,9 +42,8 @@ public class Enemy : MonoBehaviour
         velocity.x = _direction * _speed;
         _rigidbody.velocity = velocity;
 
-        if (_sprite != null)
-        {
-            _sprite.flipX = _direction > 0;
-        }
+        Vector2 scale = transform.localScale;
+        scale.x = Mathf.Abs(scale.x) * (_direction < 0 ? 1 : -1);
+        transform.localScale = scale;
     }
 }

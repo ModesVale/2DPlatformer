@@ -6,9 +6,10 @@ public class CharacterMove : MonoBehaviour
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _jumpStrength;
     [SerializeField] private Animator _animator;
+    [SerializeField] private LayerMask _groundLayer;
 
     private Rigidbody2D _rigidbody;
-    private SpriteRenderer _sprite;
+    private CharacterInput _input;
     private float _moveInput;
     private bool _isJumped;
     private bool _isGrounded;
@@ -16,14 +17,22 @@ public class CharacterMove : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        _sprite = GetComponent<SpriteRenderer>();
+        _input = GetComponent<CharacterInput>();
     }
 
     private void Update()
     {
-        HandleInput();
+        _moveInput = _input.Move;
+
+        if (_input.Jump)
+        {
+            _isJumped = true;
+        }
+
         SetAnimation();
+        FlipDirection();
     }
+
 
     private void FixedUpdate()
     {
@@ -39,24 +48,9 @@ public class CharacterMove : MonoBehaviour
         _isJumped = false;
     }
 
-    private void HandleInput()
-    {
-        _moveInput = Input.GetAxisRaw("Horizontal");
-
-        if (Input.GetButtonDown("Jump"))
-        {
-            _isJumped = true;
-        }
-
-        if (_sprite != null && _moveInput != 0)
-        {
-            _sprite.flipX = _moveInput < 0f;
-        }
-    }
-
     private void SetGrounded(Collider2D collider, bool state)
     {
-        if (collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        if (((1 << collider.gameObject.layer) & _groundLayer) != 0)
         {
             _isGrounded = state;
         }
@@ -73,5 +67,14 @@ public class CharacterMove : MonoBehaviour
             _animator.SetFloat("Speed", Mathf.Abs(_moveInput));
             _animator.SetBool("IsGrounded", _isGrounded);
         }
+    }
+
+    private void FlipDirection()
+    {
+        if (_moveInput == 0f) return;
+
+        Vector2 scale = transform.localScale;
+        scale.x = Mathf.Abs(scale.x) * (_moveInput < 0 ? 1 : -1);
+        transform.localScale = scale;
     }
 }

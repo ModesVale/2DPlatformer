@@ -1,12 +1,12 @@
+using System;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class Coin : MonoBehaviour
 {
-    private UnityAction _returnAction;
+    private Action _returnAction;
     private bool _picked;
 
-    public void RegisterReturn(UnityAction returnAction)
+    public void RegisterReturn(Action returnAction)
     {
         _returnAction = returnAction;
     }
@@ -17,15 +17,12 @@ public class Coin : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void PickUp()
     {
-        if (collision.TryGetComponent(out CharacterMove player))
-        {
-            if (_picked) return;
+        if (_picked) return;
 
-            _picked = true;
-            gameObject.SetActive(false);
-            _returnAction?.Invoke();
-        }
+        _picked = true;
+        gameObject.SetActive(false);
+        _returnAction?.Invoke();
     }
 }

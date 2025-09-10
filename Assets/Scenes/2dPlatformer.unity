@@ -406,6 +406,8 @@ GameObject:
   - component: {fileID: 190055704}
   - component: {fileID: 190055703}
   - component: {fileID: 190055709}
+  - component: {fileID: 190055711}
+  - component: {fileID: 190055710}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -429,6 +431,9 @@ MonoBehaviour:
   _moveSpeed: 5
   _jumpStrength: 9
   _animator: {fileID: 190055709}
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!50 &190055704
 Rigidbody2D:
   serializedVersion: 4
@@ -580,6 +585,30 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &190055710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 190055702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a684795eb8e51fe4dbde2ff0a705ac69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &190055711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 190055702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b134d6a07cf32349a1d186a4f87e5b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &234225527
 GameObject:
   m_ObjectHideFlags: 0
