@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class CharacterMove : MonoBehaviour
+public class CharacterMover : MonoBehaviour
 {
     [SerializeField] private Collider2D _groundSensor;
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _jumpStrength;
     [SerializeField] private Animator _animator;
-    [SerializeField] private LayerMask _groundLayer;
+    
 
     private Rigidbody2D _rigidbody;
     private CharacterInput _input;
@@ -50,10 +50,10 @@ public class CharacterMove : MonoBehaviour
 
     private void SetGrounded(Collider2D collider, bool state)
     {
-        if (((1 << collider.gameObject.layer) & _groundLayer) != 0)
-        {
-            _isGrounded = state;
-        }
+        //if (((1 << collider.gameObject.layer) & _groundLayer) != 0)
+        //{
+        //    _isGrounded = state;
+        //}
     }
 
     private void OnTriggerEnter2D(Collider2D other) => SetGrounded(other, true);

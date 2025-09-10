@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CharacterCollector : MonoBehaviour
+public class Collector : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
