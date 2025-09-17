@@ -1,18 +1,22 @@
 using UnityEngine;
 
+[RequireComponent (typeof(Rigidbody2D))]
+[RequireComponent (typeof(CharacterInput))]
 public class CharacterMover : MonoBehaviour
 {
-    [SerializeField] private Collider2D _groundSensor;
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _jumpStrength;
+    [SerializeField] private GroundSensor _groundSensor;
     [SerializeField] private Animator _animator;
-    
+    [SerializeField] private Flipper _flipper;
+
+    private static readonly int SpeedHash = Animator.StringToHash("Speed");
+    private static readonly int IsGroundedHash = Animator.StringToHash("IsGrounded");
 
     private Rigidbody2D _rigidbody;
     private CharacterInput _input;
     private float _moveInput;
-    private bool _isJumped;
-    private bool _isGrounded;
+    private bool _jumpRequested;
 
     private void Awake()
     {
@@ -22,59 +26,67 @@ public class CharacterMover : MonoBehaviour
 
     private void Update()
     {
+        HandleInput();
+        UpdateAnimator();
+        UpdateFacing();
+    }
+
+    private void FixedUpdate()
+    {
+        ApplyMovement();
+    }
+
+    private void HandleInput()
+    {
         _moveInput = _input.Move;
 
         if (_input.Jump)
         {
-            _isJumped = true;
+            _jumpRequested = true;
         }
-
-        SetAnimation();
-        FlipDirection();
     }
 
-
-    private void FixedUpdate()
+    private void ApplyMovement()
     {
+        bool isGrounded = _groundSensor != null && _groundSensor.IsGrounded;
+
         Vector2 currentVelocity = _rigidbody.velocity;
         currentVelocity.x = _moveInput * _moveSpeed;
-      
-        if (_isJumped && _isGrounded)
+
+        if (_jumpRequested && isGrounded)
         {
             currentVelocity.y = _jumpStrength;
         }
-        
+
         _rigidbody.velocity = currentVelocity;
-        _isJumped = false;
+        _jumpRequested = false;
     }
 
-    private void SetGrounded(Collider2D collider, bool state)
+    private void UpdateAnimator()
     {
-        //if (((1 << collider.gameObject.layer) & _groundLayer) != 0)
-        //{
-        //    _isGrounded = state;
-        //}
-    }
-
-    private void OnTriggerEnter2D(Collider2D other) => SetGrounded(other, true);
-
-    private void OnTriggerExit2D(Collider2D other) => SetGrounded(other, false);
-
-    private void SetAnimation()
-    {
-        if (_animator != null)
+        if (_animator == null)
         {
-            _animator.SetFloat("Speed", Mathf.Abs(_moveInput));
-            _animator.SetBool("IsGrounded", _isGrounded);
+            return;
         }
+
+        _animator.SetFloat(SpeedHash, Mathf.Abs(_moveInput));
+        _animator.SetBool(IsGroundedHash, _groundSensor != null && _groundSensor.IsGrounded);
     }
 
-    private void FlipDirection()
+    private void UpdateFacing()
     {
-        if (_moveInput == 0f) return;
+        if (_flipper == null)
+        {
+            return;
+        }
 
-        Vector2 scale = transform.localScale;
-        scale.x = Mathf.Abs(scale.x) * (_moveInput < 0 ? 1 : -1);
-        transform.localScale = scale;
+        if (_moveInput < 0)
+        {
+            _flipper.SetFacing(FacingDirection.Left);
+        }
+        else if (_moveInput > 0)
+        {
+            _flipper.SetFacing(FacingDirection.Right);
+        }
     }
 }

@@ -16,7 +16,7 @@ public class CoinSpawner : MonoBehaviour
         _pool = new ObjectPool<Coin>(
             createFunc: () => Instantiate(_prefab),
             actionOnGet: (coin) => coin.ResetState(),
-            actionOnRelease: (coin) => coin.gameObject.SetActive(false),
+            actionOnRelease: (coin) => coin.UnregisterReturn(),
             actionOnDestroy: (coin) => Destroy(coin.gameObject),
             collectionCheck: true,
             defaultCapacity: _poolCapacity
@@ -25,22 +25,22 @@ public class CoinSpawner : MonoBehaviour
 
     private void Start()
     {
-        foreach (Transform point in _spawnPoints)
+        foreach (Transform spawnPoint in _spawnPoints)
         {
-            SpawnAtPoint(point);
+            SpawnAtPoint(spawnPoint);
         }
     }
 
-    private void SpawnAtPoint(Transform point)
+    private void SpawnAtPoint(Transform spawnPoint)
     {
         Coin coin = _pool.Get();
-        coin.transform.position = point.position;
-        coin.RegisterReturn(() => StartCoroutine(RespawnAtPoint(point)));
+        coin.transform.position = spawnPoint.position;
+        coin.RegisterReturn(() => StartCoroutine(RespawnAtPoint(spawnPoint)));
     }
 
-    private IEnumerator RespawnAtPoint(Transform point)
+    private IEnumerator RespawnAtPoint(Transform spawnPoint)
     {
         yield return new WaitForSeconds( _respawnDelay );
-        SpawnAtPoint(point);
+        SpawnAtPoint(spawnPoint);
     }
 }

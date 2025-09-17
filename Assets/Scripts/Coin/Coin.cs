@@ -3,26 +3,31 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    private Action _returnAction;
-    private bool _picked;
+    private Action _onPickedCallback;
+    private bool _isPicked;
 
     public void RegisterReturn(Action returnAction)
     {
-        _returnAction = returnAction;
+        _onPickedCallback = returnAction;
+    }
+
+    public void UnregisterReturn()
+    {
+        _onPickedCallback = null;
     }
 
     public void ResetState()
     {
-        _picked = false;
+        _isPicked = false;
         gameObject.SetActive(true);
     }
 
     public void PickUp()
     {
-        if (_picked) return;
+        if (_isPicked) return;
 
-        _picked = true;
+        _isPicked = true;
         gameObject.SetActive(false);
-        _returnAction?.Invoke();
+        _onPickedCallback?.Invoke();
     }
 }
